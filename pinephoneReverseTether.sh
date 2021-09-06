@@ -31,7 +31,8 @@ function determine_interface() {
     printf "$INTERFACE_RETURN"
 }
 get_ip() {
-    printf "$(ip addr show $1| awk '/inet /{print substr($2,1)}' | awk '{print substr($1, 1, length($1)-3)}')"
+    printf "$(ip -o -4 addr list $1 | awk '{print $4}' | cut -d/ -f1)"
+    #"$(ip addr show $1| awk '/inet /{print substr($2,1)}' | awk '{print substr($1, 1, length($1)-3)}')"
 }
 
 INTERNET_FACING_INTERFACE=$(determine_interface "Select the interface that is exposed to the internet:")
